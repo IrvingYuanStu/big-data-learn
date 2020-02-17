@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+
+    <properties>
+        <property name="LOG_HOME">logs</property>
+    </properties>
+
+    <appenders>
+
+        <Console name="console_out" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%t]:[%p] %d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n"/>
+        </Console>
+        <Console name="console_err" target="SYSTEM_ERR">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="[%t]:[%p] %d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n"/>
+        </Console>
+
+        <RollingFile name="common" fileName="${LOG_HOME}/serverCommon.log"
+                     filePattern="logs/serverCommon.log.%i" immediateFlush="false">
+            <PatternLayout pattern="[%t]:[%p] %d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="30 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+
+        <RollingFile name="error" fileName="${LOG_HOME}/serverError.log"
+                     filePattern="logs/serverError.log.%i" immediateFlush="false">
+            <PatternLayout pattern="[%t]:%p||%d{yyyy-MM-dd HH:mm:ss.SSS}||%m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="30 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+
+        <RollingFile name="request" fileName="${LOG_HOME}/serverRequest.log"
+                     filePattern="logs/serverRequest.log.%i" immediateFlush="false">
+            <PatternLayout pattern="[%t]:%p||%d{yyyy-MM-dd HH:mm:ss.SSS}||%m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="30 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+
+        <RollingFile name="dingtalk" fileName="${LOG_HOME}/dingTalk.log"
+                     filePattern="logs/dingTalk.log.%i" immediateFlush="false">
+            <PatternLayout pattern="[%t]:%p||%d{yyyy-MM-dd HH:mm:ss.SSS}||%m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="30 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+        <RollingFile name="syscheck" fileName="${LOG_HOME}/syscheck.log"
+                     filePattern="logs/syscheck.log.%i" immediateFlush="false">
+            <PatternLayout pattern="[%t]:%p||%d{yyyy-MM-dd HH:mm:ss.SSS}||%m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="30 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <asyncLogger name="com.dingtalk.open" level="info">
+            <appender-ref ref="dingtalk"/>
+        </asyncLogger>
+
+        <asyncLogger name="common" level="info" additivity="false">
+            <appender-ref ref="common"/>
+            <appender-ref ref="console_out"/>
+        </asyncLogger>
+
+        <asyncLogger name="error" level="info" additivity="false">
+            <appender-ref ref="error"/>
+            <appender-ref ref="console_err"/>
+        </asyncLogger>
+
+        <asyncLogger name="request" level="debug" additivity="false">
+            <appender-ref ref="request"/>
+        </asyncLogger>
+
+        <asyncLogger name="syscheck" level="info" additivity="false">
+            <appender-ref ref="syscheck"/>
+        </asyncLogger>
+
+        <asyncRoot level="info">
+            <appender-ref ref="console_out"/>
+        </asyncRoot>
+    </loggers>
+
+</configuration>

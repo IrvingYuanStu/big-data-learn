@@ -1,0 +1,5 @@
+java,java,is,an oop language
+java,java,is,very populor
+go,go,is,for IO
+python,python,is,easy for AI
+php,php,is,best
